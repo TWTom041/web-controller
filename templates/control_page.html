@@ -1,0 +1,253 @@
+<!-- FILEPATH: /c:/Users/Tom/Documents/code/web-controller/templates/control_page.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Web Controller</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/keyboard.css') }}">
+    <script type="text/javascript" src="{{url_for('static', filename='js/keyboard.js')}}"></script>
+</head>
+
+<body>
+    <div class="keyboard">
+        <div class="keyboard__row keyboard__row--h1">
+            <div data-key="27" data-char="esc" class="key key--word">
+                <span>esc</span>
+            </div>
+            <div data-key="112" data-char="f1" class="key key--fn">
+                <span>F1</span>
+            </div>
+            <div data-key="113" data-char="f2" class="key key--fn">
+                <span>F2</span>
+            </div>
+            <div data-key="114" data-char="f3" class="key key--fn">
+                <span>F3</span>
+            </div>
+            <div data-key="115" data-char="f4" class="key key--fn">
+                <span>F4</span>
+            </div>
+            <div data-key="116" data-char="f5" class="key key--fn">
+                <span>F5</span>
+            </div>
+            <div data-key="117" data-char="f6" class="key key--fn">
+                <span>F6</span>
+            </div>
+            <div data-key="118" data-char="f7" class="key key--fn">
+                <span>F7</span>
+            </div>
+            <div data-key="119" data-char="f8" class="key key--fn">
+                <span>F8</span>
+            </div>
+            <div data-key="120" data-char="f9" class="key key--fn">
+                <span>F9</span>
+            </div>
+            <div data-key="121" data-char="f10" class="key key--fn">
+                <span>F10</span>
+            </div>
+            <div data-key="122" data-char="f11" class="key key--fn">
+                <span>F11</span>
+            </div>
+            <div data-key="123" data-char="f12" class="key key--fn">
+                <span>F12</span>
+            </div>
+            <div data-key="n/a" data-char="pwr" class="key key--word">
+                <span>pwr</span>
+            </div>
+        </div>
+        <div class="keyboard__row">
+            <div class="key key--double" data-key="192" data-char="`">
+                <div>~</div>
+                <div>`</div>
+            </div>
+            <div class="key key--double" data-key="49" data-char="1">
+                <div>!</div>
+                <div>1</div>
+            </div>
+            <div class="key key--double" data-key="50" data-char="2">
+                <div>@</div>
+                <div>2</div>
+            </div>
+            <div class="key key--double" data-key="51" data-char="3">
+                <div>#</div>
+                <div>3</div>
+            </div>
+            <div class="key key--double" data-key="52" data-char="4">
+                <div>$</div>
+                <div>4</div>
+            </div>
+            <div class="key key--double" data-key="53" data-char="5">
+                <div>%</div>
+                <div>5</div>
+            </div>
+            <div class="key key--double" data-key="54" data-char="6">
+                <div>^</div>
+                <div>6</div>
+            </div>
+            <div class="key key--double" data-key="55" data-char="7">
+                <div>&</div>
+                <div>7</div>
+            </div>
+            <div class="key key--double" data-key="56" data-char="8">
+                <div>*</div>
+                <div>8</div>
+            </div>
+            <div class="key key--double" data-key="57" data-char="9">
+                <div>(</div>
+                <div>9</div>
+            </div>
+            <div class="key key--double" data-key="48" data-char="0">
+                <div>)</div>
+                <div>0</div>
+            </div>
+            <div class="key key--double" data-key="189" data-char="-">
+                <div>_</div>
+                <div>-</div>
+            </div>
+            <div class="key key--double" data-key="187" data-char="=">
+                <div>+</div>
+                <div>=</div>
+            </div>
+            <div class="key key--bottom-right key--word key--w4" data-key="8" data-char="del">
+                <span>delete</span>
+            </div>
+        </div>
+        <div class="keyboard__row">
+            <div class="key key--bottom-left key--word key--w4" data-key="9" data-char="tab">
+                <span>tab</span>
+            </div>
+            <div class="key key--letter" data-char="q">Q</div>
+            <div class="key key--letter" data-char="w">W</div>
+            <div class="key key--letter" data-char="e">E</div>
+            <div class="key key--letter" data-char="r">R</div>
+            <div class="key key--letter" data-char="t">T</div>
+            <div class="key key--letter" data-char="y">Y</div>
+            <div class="key key--letter" data-char="u">U</div>
+            <div class="key key--letter" data-char="i">I</div>
+            <div class="key key--letter" data-char="o">O</div>
+            <div class="key key--letter" data-char="p">P</div>
+            <div class="key key--double" data-key="219" data-char="[">
+                <div>{</div>
+                <div>[</div>
+            </div>
+            <div class="key key--double" data-key="221" data-char="]">
+                <div>}</div>
+                <div>]</div>
+            </div>
+            <div class="key key--double" data-key="220" data-char="\">
+                <div>|</div>
+                <div>\</div>
+            </div>
+        </div>
+        <div class="keyboard__row">
+            <div class="key key--bottom-left key--word key--w5" data-key="20">
+                <span>caps lock</span>
+            </div>
+            <div class="key key--letter" data-char="a">A</div>
+            <div class="key key--letter" data-char="s">S</div>
+            <div class="key key--letter" data-char="d">D</div>
+            <div class="key key--letter" data-char="f">F</div>
+            <div class="key key--letter" data-char="g">G</div>
+            <div class="key key--letter" data-char="h">H</div>
+            <div class="key key--letter" data-char="j">J</div>
+            <div class="key key--letter" data-char="k">K</div>
+            <div class="key key--letter" data-char="l">L</div>
+            <div class="key key--double" data-key="186" data-char=";">
+                <div>:</div>
+                <div>;</div>
+            </div>
+            <div class="key key--double" data-key="222" data-char="'">
+                <div>"</div>
+                <div>'</div>
+            </div>
+            <div class="key key--bottom-right key--word key--w5" data-key="13" data-char="enter">
+                <span>return</span>
+            </div>
+        </div>
+        <div class="keyboard__row">
+            <div class="key key--bottom-left key--word key--w6" data-key="16" data-char="shiftleft">
+                <span>shift</span>
+            </div>
+            <div class="key key--letter" data-char="z">Z</div>
+            <div class="key key--letter" data-char="x">X</div>
+            <div class="key key--letter" data-char="c">C</div>
+            <div class="key key--letter" data-char="v">V</div>
+            <div class="key key--letter" data-char="b">B</div>
+            <div class="key key--letter" data-char="n">N</div>
+            <div class="key key--letter" data-char="m">M</div>
+            <div class="key key--double" data-key="188" data-char=",">
+                <div>&lt;</div>
+                <div>,</div>
+            </div>
+            <div class="key key--double" data-key="190" data-char=".">
+                <div>&gt;</div>
+                <div>.</div>
+            </div>
+            <div class="key key--double" data-key="191" data-char="/">
+                <div>?</div>
+                <div>/</div>
+            </div>
+            <div class="key key--bottom-right key--word key--w6" data-key="16-R" data-char="shiftright">
+                <span>shift</span>
+            </div>
+        </div>
+        <div class="keyboard__row keyboard__row--h3">
+            <div class="key key--bottom-left key--word" data-char="fn">
+                <span>fn</span>
+            </div>
+            <div class="key key--bottom-left key--word key--w1" data-key="17" data-char="ctrlleft">
+                <span>control</span>
+            </div>
+            <div class="key key--bottom-left key--word key--w1" data-key="91" data-char="winleft">
+                <span>win</span>
+            </div>
+            <div class="key key--bottom-right key--word key--w3" data-key="18" data-char="altleft">
+                <span>alt</span>
+            </div>
+            <div class="key key--double key--right key--space" data-key="32" data-char=" ">
+                &nbsp;
+            </div>
+            <div class="key key--bottom-left key--word key--w3" data-key="93-R" data-char="winright">
+                <span>win</span>
+            </div>
+            <div class="key key--bottom-left key--word key--w1" data-key="18-R" data-char="altright">
+                <span>alt</span>
+            </div>
+            <div data-key="37" class="key key--arrow" data-char="left">
+                <span>&#9664;</span>
+            </div>
+            <div class="key--double key--arrow--tall" data-key="38">
+                <div class="key" data-char="up">&#9650;</div>
+                <div class="key" data-char="down">&#9660;</div>
+            </div>
+            <div data-key="39" class="key key--arrow" data-char="right">
+                <span>&#9654;</span>
+            </div>
+        </div>
+    </div>
+    <div class="joystick">
+        <div class="joystick-handle" onmousedown="startJoystick(event)" onmouseup="stopJoystick(event)"
+            onmouseleave="stopJoystick(event)"></div>
+    </div>
+    <script>
+        // 鍵盤按下時調用的函數
+        function keyPressed(key) {
+            console.log('Key pressed: ' + key);
+            // 在這裡添加您想要調用的函數
+        }
+        // 搖杆開始移動時調用的函數
+        function startJoystick(event) {
+            console.log('Joystick started');
+            // 在這裡添加您想要調用的函數
+        }
+        // 搖杆停止移動時調用的函數
+        function stopJoystick(event) {
+            console.log('Joystick stopped');
+            // 在這裡添加您想要調用的函數
+        }
+    </script>
+</body>
+
+</html>

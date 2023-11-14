@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for
-
 # import ngrok
 import pyautogui
 import random
@@ -37,6 +36,8 @@ def auth():
 
 @app.route("/api/mouse", methods=["POST"])
 def mouse():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return jsonify({"status": "error"}), 401
     data = request.get_json()
     pyautogui.moveRel(data["x"] * sensitivity, data["y"] * sensitivity)
     return jsonify({"status": "ok"})
@@ -44,6 +45,8 @@ def mouse():
 
 @app.route("/api/scroll", methods=["POST"])
 def scroll():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return jsonify({"status": "error"}), 401
     data = request.get_json()
     pyautogui.scroll(data["amount"])
     return jsonify({"status": "ok"})
@@ -51,6 +54,8 @@ def scroll():
 
 @app.route("/api/keyboard", methods=["POST"])
 def keyboard():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return jsonify({"status": "error"}), 401
     data = request.get_json()
     print(data)
     updown = data["updown"]

@@ -7,10 +7,12 @@ import pyautogui
 
 app = Flask(__name__)
 
+sensitivity = 0.7
+
 @app.route('/api/mouse', methods=['POST'])
 def mouse():
     data = request.get_json()
-    pyautogui.moveTo(data['x'], data['y'])
+    pyautogui.moveRel(data['x'] * sensitivity, data['y'] * sensitivity)
     return jsonify({'status': 'ok'})
 
 @app.route('/api/scroll', methods=['POST'])

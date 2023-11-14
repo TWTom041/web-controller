@@ -1,3 +1,5 @@
+key_req_array = [];
+
 function getKey(e) {
     var location = e.location;
     var selector;
@@ -25,20 +27,30 @@ function pressKey(char) {
     }, 200);
 }
 
-function send_key(key, updown) {
-    console.log(key, updown);
+function send_key_request() {
+    if (key_req_array.length==0) {
+        setTimeout(send_key_request, 20);
+        return;
+    }
+    var to_be_sent = key_req_array.shift();
     fetch('/api/keyboard', {
         method: 'POST',
         body: JSON.stringify({
-            "key": key,
-            "updown": updown
+            "key": to_be_sent[0],
+            "updown": to_be_sent[1],
         }),
         headers: {
             "Content-Type": "application/json"
         }
     }).then(function (res) {
-        console.log(res.ok);
+        // console.log(res.ok);
+        return send_key_request();
     });
+}
+
+function send_key(key, updown) {
+    console.log(key, updown);
+    key_req_array.push([key, updown]);
 }
 
 function size() {
@@ -48,22 +60,7 @@ function size() {
     console.log(size);
 }
 
-// var h1 = document.querySelector('h1');
-// var originalQueue = h1.innerHTML;
-// var queue = h1.innerHTML;
-
-// function next () {
-//     var c = queue[0];
-//     queue = queue.slice(1);
-//     h1.innerHTML = originalQueue.slice(0, originalQueue.length - queue.length);
-//     pressKey(c);
-//     if (queue.length) {
-//         setTimeout(next, Math.random() * 200 + 50);
-//     }
-// }
-
-// h1.innerHTML = "&nbsp;";
-// setTimeout(next, 500);
+send_key_request()
 
 window.addEventListener('load', function () {
     console.log("loaded")

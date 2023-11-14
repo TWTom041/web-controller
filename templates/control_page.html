@@ -1,5 +1,3 @@
-<!-- FILEPATH: /c:/Users/Tom/Documents/code/web-controller/templates/control_page.html -->
-
 <!DOCTYPE html>
 <html>
 
@@ -9,11 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/keyboard.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/joystick.css') }}">
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
     <script type="text/javascript" src="{{url_for('static', filename='js/keyboard.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='js/joystick.js')}}"></script>
 </head>
 
-<body>
+<body class="noselect">
     <div class="keyboard">
         <div class="keyboard__row keyboard__row--h1">
             <div data-key="27" data-char="esc" class="key key--word">
@@ -235,21 +236,6 @@
         </div>
       </div>
     <script>
-        // 鍵盤按下時調用的函數
-        function keyPressed(key) {
-            console.log('Key pressed: ' + key);
-            // 在這裡添加您想要調用的函數
-        }
-        // 搖杆開始移動時調用的函數
-        function startJoystick(event) {
-            console.log('Joystick started');
-            // 在這裡添加您想要調用的函數
-        }
-        // 搖杆停止移動時調用的函數
-        function stopJoystick(event) {
-            console.log('Joystick stopped');
-            // 在這裡添加您想要調用的函數
-        }
     </script>
 </body>
 

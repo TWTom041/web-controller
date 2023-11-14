@@ -66,19 +66,16 @@ function init() {
     });
 }
 
-function send_mouse(key, updown) {
-    console.log(key, updown);
-    fetch('/api/keyboard', {
+function send_mouse(stick_pos) {
+    // console.log(stick_pos);
+    fetch('/api/mouse', {
         method: 'POST',
-        body: JSON.stringify({
-            "key": key,
-            "updown": updown
-        }),
+        body: JSON.stringify(stick_pos),
         headers: {
             "Content-Type": "application/json"
         }
     }).then(function (res) {
-        console.log(res.ok);
+        // console.log(res.ok);
     });
 }
 
@@ -95,8 +92,10 @@ function calculateCoords(angle, distance) {
     return coords;
 }
 
+window.addEventListener('load', init);
+
 setInterval(function () {
-    console.log(now_speed);
-    send_mouse("mouse", now_speed);
+    // console.log(now_speed);
+    send_mouse(now_speed);
 }, 100);
 

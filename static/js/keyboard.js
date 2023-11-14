@@ -1,4 +1,4 @@
-function getKey (e) {
+function getKey(e) {
     var location = e.location;
     var selector;
     if (location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
@@ -13,7 +13,7 @@ function getKey (e) {
     return document.querySelector(selector);
 }
 
-function pressKey (char) {
+function pressKey(char) {
     var key = document.querySelector('[data-char*="' + char.toUpperCase() + '"]');
     if (!key) {
         return console.warn('No key for', char);
@@ -26,16 +26,22 @@ function pressKey (char) {
 }
 
 function send_key(key, updown) {
+    console.log(key, updown);
     fetch('/api/keyboard', {
         method: 'POST',
-        key: key,
-        updown: updown
+        body: JSON.stringify({
+            "key": key,
+            "updown": updown
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
     }).then(function (res) {
-        console.log(res);
+        console.log(res.ok);
     });
 }
 
-function size () {
+function size() {
     var keyboard = document.querySelector('.keyboard');
     var size = keyboard.parentNode.clientWidth / 90;
     keyboard.style.fontSize = size + 'px';
@@ -85,18 +91,17 @@ window.addEventListener('load', function () {
     var key_elements = document.querySelectorAll('.key');
     key_elements.forEach(function (key) {
         key.addEventListener('mousedown', function (e) {
-            var key_char = e.target.getAttribute('data-char');
-            console.log(key_char)
+            var key_char = key.getAttribute('data-char');
             if (key_char === null) {
-                key_num = e.target.getAttribute('data-key');
+                key_num = key.getAttribute('data-key');
                 key_char = key_num.charCodeAt(0);
             }
             send_key(key_char, "down");
         });
         key.addEventListener('mouseup', function (e) {
-            var key_char = e.target.getAttribute('data-char');
+            var key_char = key.getAttribute('data-char');
             if (key_char === null) {
-                key_num = e.target.getAttribute('data-key');
+                key_num = key.getAttribute('data-key');
                 key_char = key_num.charCodeAt(0);
             }
             send_key(key_char, "up");

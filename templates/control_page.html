@@ -8,7 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/keyboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/joystick.css') }}">
     <script type="text/javascript" src="{{url_for('static', filename='js/keyboard.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/joystick.js')}}"></script>
 </head>
 
 <body>
@@ -227,10 +229,11 @@
             </div>
         </div>
     </div>
-    <div class="joystick">
-        <div class="joystick-handle" onmousedown="startJoystick(event)" onmouseup="stopJoystick(event)"
-            onmouseleave="stopJoystick(event)"></div>
-    </div>
+    <div class="container space-top">
+        <div class="center-align">
+          <canvas id="joystick" height="300" width="300"></canvas>
+        </div>
+      </div>
     <script>
         // 鍵盤按下時調用的函數
         function keyPressed(key) {

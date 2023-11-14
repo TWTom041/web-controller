@@ -1,8 +1,9 @@
-import pyautogui, sys
 from flask import Flask, request, jsonify, render_template
-import ngrok
+# import ngrok
+import pyautogui
 
 # listener = ngrok.connect(5000, authtoken_from_env=True)
+# print (f"Ingress established at {listener.url()}")
 
 app = Flask(__name__)
 
@@ -24,8 +25,10 @@ def keyboard():
     print(data)
     updown = data['updown']
     if updown == 'up':
+        print(data["key"], "up")
         pyautogui.keyUp(data['key'])
     elif updown == 'down':
+        print(data["key"], "down")
         pyautogui.keyDown(data['key'])
     return jsonify({'status': 'ok'})
 

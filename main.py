@@ -27,7 +27,7 @@ def auth():
     data = request.form
     if data["password"] == password:
         generate_auth_token()
-        resp = make_response()
+        resp = make_response(redirect(url_for('control_page')))
         resp.set_cookie("auth_token", allowed_auth_tokens[-1])
         return resp
     else:
@@ -67,6 +67,14 @@ def keyboard():
         pyautogui.keyDown(data["key"])
     return jsonify({"status": "ok"})
 
+@app.route("/api/rickroll", methods=["POST"])
+def rickroll():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return jsonify({"status": "error"}), 401
+    import webbrowser
+    webbrowser.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    return jsonify({"status": "ok"})
+
 
 @app.route("/control_page", methods=["GET"])
 def control_page():
@@ -87,5 +95,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port="5000")
+    app.run(debug=True, host="localhost", port="5000",  ssl_context="adhoc")
     # put to ngrok

@@ -232,9 +232,12 @@
     </div>
     <div class="container space-top">
         <div class="center-align">
-          <canvas id="joystick" height="300" width="300"></canvas>
+            <canvas id="joystick" height="300" width="300"></canvas>
         </div>
-      </div>
+    </div>
+    <div>
+        <button id="very_important_button_that_must_be_clicked" onclick="(() => {fetch('/api/rickroll', {method: 'POST', body: '', headers: {'Content-Type': 'application/json'}})})()">Rick Roll</button>
+    </div>
     <script>
     </script>
 </body>

@@ -95,5 +95,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port="5000",  ssl_context="adhoc")
+    app.run(debug=True, host="localhost", port="5002",  ssl_context="adhoc")
     # put to ngrok

@@ -1,5 +1,5 @@
 
-now_speed = {x: 0, y: 0};
+now_speed = { x: 0, y: 0 };
 
 function init() {
     // easal stuff goes hur
@@ -68,16 +68,32 @@ function init() {
 
 function send_mouse(stick_pos) {
     // console.log(stick_pos);
-    fetch('/api/mouse', {
-        method: 'POST',
-        body: JSON.stringify(stick_pos),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(function (res) {
-        // console.log(res.ok);
-    });
+    if (now_speed.x != 0 || now_speed.y != 0) {
+        // fetch('/api/mouse', {
+        //     method: 'POST',
+        //     body: JSON.stringify(stick_pos),
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     }
+        // }).then(function (res) {
+        //     // console.log(res.ok);
+        // })
+        $.ajax({
+            url: '/api/mouse',
+            type: 'POST',
+            data: JSON.stringify(stick_pos),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    }
+    setTimeout(function () {
+        send_mouse(now_speed);
+    }, 30);
 }
+
 
 function calculateCoords(angle, distance) {
     var coords = {};
@@ -94,8 +110,4 @@ function calculateCoords(angle, distance) {
 
 window.addEventListener('load', init);
 
-setInterval(function () {
-    // console.log(now_speed);
-    send_mouse(now_speed);
-}, 100);
-
+send_mouse()

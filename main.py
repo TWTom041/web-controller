@@ -14,6 +14,8 @@ sensitivity = 0.7
 allowed_auth_tokens = []
 password = "randompassword"
 
+pyautogui.FAILSAFE = False
+
 
 def generate_auth_token():
     length = 20

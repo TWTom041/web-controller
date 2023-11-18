@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/keyboard.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/joystick.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
     <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
@@ -234,7 +235,7 @@
         <div class="center-align">
             <canvas id="joystick" height="300" width="300"></canvas>
         </div>
-        <div class="center-align">
+        <div class="center-align" style="width: 300px;">
             <button id="mouseleftbtn" class="btn-large waves-effect waves-light red" style="width: 49%; height: 30px;">L</button>
             <button id="mouserightbtn" class="btn-large waves-effect waves-light red" style="width: 49%; height: 30px;">R</button>
         </div>

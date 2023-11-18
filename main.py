@@ -3,36 +3,41 @@ from flask import Flask, request, jsonify, render_template, make_response, redir
 import pyautogui
 import random
 import string
+from argon2 import PasswordHasher
 
 # listener = ngrok.connect(5000, authtoken_from_env=True)
 # print (f"Ingress established at {listener.url()}")
 
 app = Flask(__name__)
+ph = PasswordHasher()
 
 sensitivity = 0.7
 
 allowed_auth_tokens = []
-password = "randompassword"
 
 pyautogui.FAILSAFE = False
+pyautogui.PAUSE = 0
 
 
 def generate_auth_token():
     length = 20
-    allowed_auth_tokens.append(
-        "".join(random.choice(string.ascii_letters) for i in range(length))
-    )
+    auth_token = "".join(random.choice(string.ascii_letters) for i in range(length))
+    allowed_auth_tokens.append(auth_token)
+    return auth_token
 
 
 @app.route("/api/auth", methods=["POST"])
 def auth():
     data = request.form
-    if data["password"] == password:
-        generate_auth_token()
+    with open("password.txt", "r") as f:
+        password_hashed = f.read()
+    try:
+        ph.verify(password_hashed, data["password"])
+        auth_token = generate_auth_token()
         resp = make_response(redirect(url_for('control_page')))
-        resp.set_cookie("auth_token", allowed_auth_tokens[-1])
+        resp.set_cookie("auth_token", auth_token)
         return resp
-    else:
+    except:
         return jsonify({"status": "error"})
 
 
@@ -106,5 +111,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port="5002",  ssl_context="adhoc")
+    app.run(debug=True, host="0.0.0.0", port="5002",  ssl_context="adhoc")
     # put to ngrok

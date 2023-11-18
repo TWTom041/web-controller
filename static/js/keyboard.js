@@ -20,7 +20,7 @@ function pressKey(char) {
     if (!key) {
         return console.warn('No key for', char);
     }
-    console.log(key);
+    // console.log(key);
     key.setAttribute('data-pressed', 'on');
     setTimeout(function () {
         key.removeAttribute('data-pressed');
@@ -33,23 +33,24 @@ function send_key_request() {
         return;
     }
     var to_be_sent = key_req_array.shift();
-    fetch('/api/keyboard', {
-        method: 'POST',
-        body: JSON.stringify({
+    $.ajax({
+        url: '/api/keyboard',
+        type: 'POST',
+        data: JSON.stringify({
             "key": to_be_sent[0],
             "updown": to_be_sent[1],
         }),
-        headers: {
-            "Content-Type": "application/json"
+        contentType: "application/json",
+        dataType: 'json',
+        success: function (data) {
+            // console.log(data);
+            return send_key_request();
         }
-    }).then(function (res) {
-        // console.log(res.ok);
-        return send_key_request();
     });
 }
 
 function send_key(key, updown) {
-    console.log(key, updown);
+    // console.log(key, updown);
     key_req_array.push([key, updown]);
 }
 
@@ -57,13 +58,12 @@ function size() {
     var keyboard = document.querySelector('.keyboard');
     var size = keyboard.parentNode.clientWidth / 90;
     keyboard.style.fontSize = size + 'px';
-    console.log(size);
+    // console.log(size);
 }
 
 send_key_request()
 
 window.addEventListener('load', function () {
-    console.log("loaded")
     document.body.addEventListener('keydown', function (e) {
         var key = getKey(e);
         if (!key) {

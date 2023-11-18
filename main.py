@@ -41,7 +41,7 @@ def mouse():
     if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
         return jsonify({"status": "error"}), 401
     data = request.get_json()
-    pyautogui.moveRel(data["x"] * sensitivity, data["y"] * sensitivity)
+    pyautogui.moveRel(data["x"] * sensitivity, data["y"] * sensitivity, duration=30 / 1000)
     return jsonify({"status": "ok"})
 
 
@@ -54,18 +54,27 @@ def scroll():
     return jsonify({"status": "ok"})
 
 
+@app.route("/api/click", methods=["POST"])
+def click():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return jsonify({"status": "error"}), 401
+    data = request.get_json()
+    if data["updown"] == "up":
+        pyautogui.mouseUp(button=data["button"])
+    elif data["updown"] == "down":
+        pyautogui.mouseDown(button=data["button"])
+    return jsonify({"status": "ok"})
+
+
 @app.route("/api/keyboard", methods=["POST"])
 def keyboard():
     if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
         return jsonify({"status": "error"}), 401
     data = request.get_json()
-    print(data)
     updown = data["updown"]
     if updown == "up":
-        print(data["key"], "up")
         pyautogui.keyUp(data["key"])
     elif updown == "down":
-        print(data["key"], "down")
         pyautogui.keyDown(data["key"])
     return jsonify({"status": "ok"})
 
@@ -97,5 +106,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port="5002",  ssl_context="adhoc")
+    app.run(debug=True, host="127.0.0.1", port="5002",  ssl_context="adhoc")
     # put to ngrok

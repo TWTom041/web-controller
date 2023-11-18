@@ -69,15 +69,6 @@ function init() {
 function send_mouse(stick_pos) {
     // console.log(stick_pos);
     if (now_speed.x != 0 || now_speed.y != 0) {
-        // fetch('/api/mouse', {
-        //     method: 'POST',
-        //     body: JSON.stringify(stick_pos),
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     }
-        // }).then(function (res) {
-        //     // console.log(res.ok);
-        // })
         $.ajax({
             url: '/api/mouse',
             type: 'POST',
@@ -109,5 +100,58 @@ function calculateCoords(angle, distance) {
 }
 
 window.addEventListener('load', init);
+window.addEventListener('load', () => {
+    document.querySelector("#mouseleftbtn").addEventListener("mousedown", function () {
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "down", button: "left" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+
+    document.querySelector("#mouseleftbtn").addEventListener("mouseup", function () {
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "up", button: "left" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+
+    document.querySelector("#mouserightbtn").addEventListener("mousedown", function () {
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "down", button: "right" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+
+    document.querySelector("#mouserightbtn").addEventListener("mouseup", function () {
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "up", button: "right" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+});
 
 send_mouse()

@@ -28,9 +28,10 @@ pip install -r requirements.txt
 python main.py
 ```
 7. (Optional) Use Ngrok or other tunnelling service if you want to publicly access the server inside NAT
-8. Navigate to the server IP and login \
+8. Navigate to the server IP and login, and you're done! \
 ![image](https://github.com/TWTom041/web-controller/assets/57289975/602f7c4c-2fa4-4e9b-be02-359271a9376e) \
-![image](https://github.com/TWTom041/web-controller/assets/57289975/d942aa3c-97ff-4bd6-b87e-5b68ea7e624c)
+![image](https://github.com/TWTom041/web-controller/assets/57289975/bb992b27-692c-4e4d-8ad9-3fb9534bcc6a)
+
 
 ### TODO
 1. Multi-Users support

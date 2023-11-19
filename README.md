@@ -22,6 +22,7 @@ python gen_ca.py  # generate CA certificate
 ```
 > [!NOTE] 
 > During the process, the script will ask you to put a password in it.
+
 > [!WARNING] 
 > Don't set it to None to prevent sending plain-text password
 5. Install requirements.txt

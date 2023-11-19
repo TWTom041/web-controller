@@ -170,6 +170,62 @@ window.addEventListener('load', () => {
             }
         });
     })
+
+    document.querySelector("#mouserightbtn").addEventListener("touchstart", function (ev) {
+        ev.preventDefault();
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "down", button: "right" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+
+    document.querySelector("#mouserightbtn").addEventListener("touchend", function (ev) {
+        ev.preventDefault();
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "up", button: "right" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+
+    document.querySelector("#mouseleftbtn").addEventListener("touchstart", function (ev) {
+        ev.preventDefault();
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "down", button: "left" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
+
+    document.querySelector("#mouseleftbtn").addEventListener("touchend", function (ev) {
+        ev.preventDefault();
+        $.ajax({
+            url: '/api/click',
+            type: 'POST',
+            data: JSON.stringify({ updown: "up", button: "left" }),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+            }
+        });
+    })
 });
 
 send_mouse()

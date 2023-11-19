@@ -1,3 +1,7 @@
+body {
+    overscroll-behavior: none;
+}
+
 button {
     background-color: #04AA6D;
     border: 2px solid #04AA6D;

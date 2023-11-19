@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 ph = PasswordHasher()
 
-sensitivity = 0.7
+sensitivity = 0.1
 port = 5002
 
 allowed_auth_tokens = []

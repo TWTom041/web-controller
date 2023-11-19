@@ -25,6 +25,19 @@ function init() {
     stage.update();
 
     var myElement = $('#joystick')[0];
+    cont_size = window.innerWidth * 0.6;
+
+    function size() {
+        var w = window.innerWidth;
+        cont_size = w * 0.6;
+        $('#joystick').css({
+            width: cont_size + 'px',
+            height: cont_size + 'px'
+        });
+        $('.joystick-containers').css({
+            width: cont_size - 12 + 'px',
+        });
+    }
 
     // create a simple instance
     // by default, it only adds horizontal recognizers
@@ -43,8 +56,8 @@ function init() {
     mc.on("panmove", function (ev) {
         var pos = $('#joystick').position();
 
-        var x = (ev.center.x - pos.left - 150);
-        var y = (ev.center.y - pos.top - 150);
+        var x = (ev.center.x - pos.left - window.cont_size / 2);
+        var y = (ev.center.y - pos.top - window.cont_size / 2);
         // $('#xVal').text('X: ' + x);
         // $('#yVal').text('Y: ' + (-1 * y));
 
@@ -60,10 +73,15 @@ function init() {
 
     mc.on("panend", function (ev) {
         calculateCoords(0, 0);
+        xCenter = 0;
+        yCenter = 0;
 
         psp.alpha = 0.25;
         createjs.Tween.get(psp).to({ x: xCenter, y: yCenter }, 750, createjs.Ease.elasticOut);
     });
+
+    window.addEventListener('resize', size);
+    size();
 }
 
 function send_mouse(stick_pos) {

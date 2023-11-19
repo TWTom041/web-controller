@@ -103,5 +103,23 @@ window.addEventListener('load', function () {
             }
             send_key(key_char, "up");
         });
+        key.addEventListener('touchstart', function (e) {
+            e.preventDefault();
+            var key_char = key.getAttribute('data-char');
+            if (key_char === null) {
+                key_num = key.getAttribute('data-key');
+                key_char = key_num.charCodeAt(0);
+            }
+            send_key(key_char, "down");
+        });
+        key.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            var key_char = key.getAttribute('data-char');
+            if (key_char === null) {
+                key_num = key.getAttribute('data-key');
+                key_char = key_num.charCodeAt(0);
+            }
+            send_key(key_char, "up");
+        });
     });
 })

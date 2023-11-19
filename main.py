@@ -1,17 +1,19 @@
 from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for
-# import ngrok
 import pyautogui
 import random
 import string
 from argon2 import PasswordHasher
+from flask_cors import CORS
 
 # listener = ngrok.connect(5000, authtoken_from_env=True)
 # print (f"Ingress established at {listener.url()}")
 
 app = Flask(__name__)
+CORS(app)
 ph = PasswordHasher()
 
 sensitivity = 0.7
+port = 5002
 
 allowed_auth_tokens = []
 
@@ -24,6 +26,23 @@ def generate_auth_token():
     auth_token = "".join(random.choice(string.ascii_letters) for i in range(length))
     allowed_auth_tokens.append(auth_token)
     return auth_token
+
+
+@app.route("/api/lan_ip", methods=["GET"])
+def lan_ip():
+    import socket
+    def is_ipv4(ip):
+        import ipaddress
+        try:
+            ipaddress.IPv4Address(ip)
+            return True
+        except ipaddress.AddressValueError:
+            return False
+    
+    resp = make_response(jsonify({
+        "ip": [f"https://{ip[4][0]}:{port}" if is_ipv4(ip[4][0]) else f"https://[{ip[4][0]}]:{port}" for ip in socket.getaddrinfo(socket.gethostname(), None)]
+    }))
+    return resp
 
 
 @app.route("/api/auth", methods=["POST"])
@@ -111,5 +130,6 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port="5002",  ssl_context="adhoc")
+    context = ("ca-cert/ca.crt", "ca-cert/ca.key")  # or "adhoc"
+    app.run(debug=True, host="0.0.0.0", port=port, ssl_context=context)
     # put to ngrok

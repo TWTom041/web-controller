@@ -39,6 +39,16 @@ python main.py
 ![image](https://github.com/TWTom041/web-controller/assets/57289975/bb992b27-692c-4e4d-8ad9-3fb9534bcc6a)
 
 
+### Libraries Used
+Sources:
+1. argon2-cffi: [link](https://github.com/hynek/argon2-cffi)
+2. Flask: [link](https://github.com/pallets/flask)
+3. Flask-CORS: [link](https://github.com/corydolphin/flask-cors)
+4. PyAutoGUI: [link](https://github.com/asweigart/pyautogui)
+5. PyOpenSSL: [link](https://github.com/pyca/pyopenssl)
+5. Python-VLC: [link](https://github.com/oaubert/python-vlc)
+6. VLC Player: [link](https://www.videolan.org/vlc/download-sources.html)
+
 ### TODO
 1. Multi-Users support
 2. Add keyboard input support

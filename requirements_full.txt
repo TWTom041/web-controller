@@ -1,0 +1,7 @@
+flask
+pyautogui
+argon2-cffi
+flask-cors
+python-vlc
+yt-dlp
+PyOpenSSL

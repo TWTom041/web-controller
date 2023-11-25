@@ -5,21 +5,22 @@ import subprocess as sp
 import os
 import socket
 
+dirname = os.path.dirname(__file__)
 
 # check if folder "ca-cert" exists
 # if not, create it
 # if yes, delete it
-if os.path.exists("ca-cert"):
+if os.path.exists(os.path.join(dirname, "ca-cert")):
     import shutil
 
-    shutil.rmtree("ca-cert")
-os.mkdir("ca-cert")
+    shutil.rmtree(os.path.join(dirname, "ca-cert"))
+os.mkdir(os.path.join(dirname, "ca-cert"))
 
 validDate = input("Enter the expiration (days) of the certificate: ")
 _n = "\n"
 
 # 0. create config file
-open("ca-cert/ca.cnf", "w").write(
+open(os.path.join(dirname, "ca-cert/ca.cnf"), "w").write(
     f"""
 [req]
 default_bits = 2048
@@ -44,7 +45,7 @@ IP.1 = 127.0.0.1
 """
 )
 
-open("ca-cert/ca.ext", "w").write(
+open(os.path.join(dirname, "ca-cert/ca.ext"), "w").write(
     f"""
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
@@ -61,7 +62,7 @@ IP.1 = 127.0.0.1
 
 
 # generate base certificate
-sp.call(["openssl", "genrsa", "-des3", "-out", "ca-cert/temp_ca.key", "2048"])
+sp.call(["openssl", "genrsa", "-des3", "-out", os.path.join(dirname, "ca-cert/temp_ca.key"), "2048"])
 sp.call(
     [
         "openssl",
@@ -69,26 +70,26 @@ sp.call(
         "-x509",
         "-new",
         "-nodes",
-        "-key", "ca-cert/temp_ca.key",
+        "-key", os.path.join(dirname, "ca-cert/temp_ca.key"),
         "-sha256",
         "-days", validDate,
-        "-out", "ca-cert/temp_ca.pem",
-        "-config", "ca-cert/ca.cnf",
+        "-out", os.path.join(dirname, "ca-cert/temp_ca.pem"),
+        "-config", os.path.join(dirname, "ca-cert/ca.cnf"),
     ]
 )
 
 
 # 1. generate a root CA certificate and private key
-sp.call(["openssl", "genrsa", "-out", "ca-cert/ca.key", "2048"])
+sp.call(["openssl", "genrsa", "-out", os.path.join(dirname, "ca-cert/ca.key"), "2048"])
 # 2. generate CSR with config file
 sp.call(
     [
         "openssl",
         "req",
         "-new",
-        "-key", "ca-cert/ca.key",
-        "-out", "ca-cert/ca.csr",
-        "-config", "ca-cert/ca.cnf",
+        "-key", os.path.join(dirname, "ca-cert/ca.key"),
+        "-out", os.path.join(dirname, "ca-cert/ca.csr"),
+        "-config", os.path.join(dirname, "ca-cert/ca.cnf"),
     ]
 )
 
@@ -100,14 +101,13 @@ sp.call(
         "-req",
         "-days",
         validDate,
-        "-in", "ca-cert/ca.csr",
-        "-CA", "ca-cert/temp_ca.pem",
-        "-CAkey", "ca-cert/temp_ca.key",
+        "-in", os.path.join(dirname, "ca-cert/ca.csr"),
+        "-CA", os.path.join(dirname, "ca-cert/temp_ca.pem"),
+        "-CAkey", os.path.join(dirname, "ca-cert/temp_ca.key"),
         "-CAcreateserial",
-        "-out", "ca-cert/ca.crt",
+        "-out", os.path.join(dirname, "ca-cert/ca.crt"),
         "-sha256",
-        "-extfile",
-        "ca-cert/ca.ext",
+        "-extfile", os.path.join(dirname, "ca-cert/ca.ext"),
     ]
 )
 print("CA certificate and private key generated")

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for
+from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for, Response
 import pyautogui
 import random
 import string
@@ -8,6 +8,8 @@ import yt_dlp
 import os
 import time
 import argparse
+import cv2
+
 
 # listener = ngrok.connect(5000, authtoken_from_env=True)
 # print (f"Ingress established at {listener.url()}")
@@ -35,6 +37,18 @@ def generate_auth_token():
     allowed_auth_tokens.append(auth_token)
     return auth_token
 
+def gen_frames():  
+    camera = cv2.VideoCapture(0)
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            
 def update_stream_url():
     import re
     global stream_url
@@ -145,6 +159,17 @@ def rickroll():
         player.set_media(Media)
         player.play()
     return jsonify({"status": "ok"})
+
+@app.route('/webcam_page/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route("/webcam_page", methods=["GET"])
+def webcam_page():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return redirect(url_for('login_page'))
+    
+    return render_template("webcam_page.html")
 
 
 @app.route("/control_page", methods=["GET"])

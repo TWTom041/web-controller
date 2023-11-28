@@ -49,6 +49,10 @@ function send_key_request() {
     });
 }
 
+function redirect_webcam() {
+    window.location.href = "/webcam_page";
+}
+
 function send_key(key, updown) {
     // console.log(key, updown);
     key_req_array.push([key, updown]);
@@ -123,3 +127,4 @@ window.addEventListener('load', function () {
         });
     });
 })
+

@@ -67,7 +67,6 @@ def gen_screen():
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
-
 def update_stream_url():
     import re
     global stream_url

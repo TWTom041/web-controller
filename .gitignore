@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 ca-cert/
+pyngrok-main/
+pyngrok/

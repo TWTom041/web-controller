@@ -5,3 +5,4 @@ flask-cors
 python-vlc
 yt-dlp
 PyOpenSSL
+qrcode

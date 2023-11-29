@@ -1,9 +1,11 @@
 <html>
     <body>
-        <div class="container" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
-                <div class="col-lg-8  offset-lg-2">
-                    <img src="{{ url_for('video_feed') }}" height="100%">
-                </div>
+        <div class="container">
+            <div class="col-lg-8 offset-lg-2">
+                <img id="camera" src="{{ url_for('video_feed') }}" height="90%" download="cam_view.png" onload="videoLoaded()">
+            </div>
+            <button id="take_photo" onclick="(() => {fetch('/api/rickroll', {method: 'POST', body: '', headers: {'Content-Type': 'application/json'}})})()">Take a photo</button>
+            <button id="record">Record</button>
         </div>
     </body>
 </html>

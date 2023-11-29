@@ -9,6 +9,7 @@ import os
 import time
 import argparse
 import cv2
+import numpy as np
 
 
 # listener = ngrok.connect(5000, authtoken_from_env=True)
@@ -37,8 +38,15 @@ def generate_auth_token():
     allowed_auth_tokens.append(auth_token)
     return auth_token
 
-def gen_frames():  
+def gen_frames(t=False):  
     camera = cv2.VideoCapture(0)
+    # if t:
+    #     success, frame = camera.read()
+    #     ret, buffer = cv2.imencode('.jpg', frame)
+    #     frame = buffer.tobytes()
+    #     return (b'--frame\r\n'
+    #                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
     while True:
         success, frame = camera.read()
         if not success:
@@ -48,7 +56,18 @@ def gen_frames():
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            
+
+def gen_screen():
+    while True:
+        img = pyautogui.screenshot()
+        frame = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
+
 def update_stream_url():
     import re
     global stream_url
@@ -164,6 +183,10 @@ def rickroll():
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+# @app.route('/api/get_photo', methods=["GET"])
+# def get_photo():
+#     return Response(gen_frames(t=True), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 @app.route("/webcam_page", methods=["GET"])
 def webcam_page():
     if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
@@ -171,6 +194,16 @@ def webcam_page():
     
     return render_template("webcam_page.html")
 
+@app.route('/screen_page/screen_feed')
+def screen_feed():
+    return Response(gen_screen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route("/screen_page", methods=["GET"])
+def screen_page():
+    if request.cookies.get('auth_token', "") not in allowed_auth_tokens:
+        return redirect(url_for('login_page'))
+    
+    return render_template("screen_page.html")
 
 @app.route("/control_page", methods=["GET"])
 def control_page():

@@ -244,7 +244,8 @@
     </div>
     <div>
         <button id="very_important_button_that_must_be_clicked" onclick="(() => {fetch('/api/rickroll', {method: 'POST', body: '', headers: {'Content-Type': 'application/json'}})})()">Rick Roll</button>
-        <button id="wow_how_a_nice_camera" onclick="(() => {fetch('/webcam_page', {method: 'GET', headers: {'Content-Type': 'application/json'}});redirect_webcam();})()">Web Cam</button>
+        <button id="wow_how_a_nice_camera" onclick="window.location.href='webcam_page'">Web Cam</button>
+        <button id="wow_how_a_nice_screen" onclick="window.location.href='screen_page'">Screen View</button>
     </div>
 
     <script>

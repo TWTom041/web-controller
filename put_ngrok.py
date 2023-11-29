@@ -2,7 +2,7 @@ import platform
 import qrcode
 
 try:
-    from pyngrok import ngrok
+    from pyngrok import conf, ngrok
 except ModuleNotFoundError:
     from io import BytesIO
     from zipfile import ZipFile
@@ -30,6 +30,7 @@ except ModuleNotFoundError:
 
     print('installed pyngrok')
     ngrok = importlib.import_module("pyngrok.ngrok")
+    conf = importlib.import_module("pyngrok.conf")
 
 
 def qr_terminal_str(str, version=2):
@@ -64,9 +65,12 @@ if auth:
     ngrok.set_auth_token(auth)
 
 port = input("Port:")
+port = port if port else 5002
 http_https = "https"
 print("Using {}".format(http_https))
-port = port if port else 5002
+region = input("Region:")
+conf.get_default().region = region if region else "jp"
+
 ngrok_tunnel = ngrok.connect(f"https://127.0.0.1:{port}")
 print(ngrok_tunnel.public_url)
 print(qr_terminal_str(ngrok_tunnel.public_url))

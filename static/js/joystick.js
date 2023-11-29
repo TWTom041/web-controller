@@ -1,5 +1,6 @@
 
 now_speed = { x: 0, y: 0 };
+mouse_flag = true;
 
 function init() {
     // easal stuff goes hur
@@ -86,7 +87,8 @@ function init() {
 
 function send_mouse(stick_pos) {
     // console.log(stick_pos);
-    if (now_speed.x != 0 || now_speed.y != 0) {
+    if (now_speed.x != 0 || now_speed.y != 0 && mouse_flag) {
+        mouse_flag = false;
         $.ajax({
             url: '/api/mouse',
             type: 'POST',
@@ -94,12 +96,16 @@ function send_mouse(stick_pos) {
             contentType: "application/json",
             dataType: 'json',
             success: function (data) {
-                setTimeout(function () {
-                    send_mouse(now_speed);
-                }, 30);
+                // console.log(data);
+            },
+            always: function () {
+                mouse_flag = true;
             }
         });
     }
+    setTimeout(function () {
+        send_mouse(now_speed);
+    }, 30);
 }
 
 

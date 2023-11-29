@@ -67,7 +67,7 @@ port = input("Port:")
 http_https = "https"
 print("Using {}".format(http_https))
 port = port if port else 5002
-ngrok_tunnel = ngrok.connect(port)
+ngrok_tunnel = ngrok.connect(f"https://127.0.0.1:{port}")
 print(ngrok_tunnel.public_url)
 print(qr_terminal_str(ngrok_tunnel.public_url))
 print("Press enter to exit")

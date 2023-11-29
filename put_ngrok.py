@@ -34,7 +34,7 @@ except ModuleNotFoundError:
 
 def qr_terminal_str(str, version=2):
     if platform.system() == "Windows":
-        white_block = '▇▇'
+        white_block = '██'
         black_block = '  '
         new_line = '\n'
     else:

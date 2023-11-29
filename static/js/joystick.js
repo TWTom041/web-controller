@@ -94,13 +94,12 @@ function send_mouse(stick_pos) {
             contentType: "application/json",
             dataType: 'json',
             success: function (data) {
-                // console.log(data);
+                setTimeout(function () {
+                    send_mouse(now_speed);
+                }, 30);
             }
         });
     }
-    setTimeout(function () {
-        send_mouse(now_speed);
-    }, 30);
 }
 
 

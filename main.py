@@ -1,3 +1,4 @@
+from typing import Any
 from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for, Response
 import pyautogui
 import random
@@ -38,33 +39,55 @@ def generate_auth_token():
     allowed_auth_tokens.append(auth_token)
     return auth_token
 
-def gen_frames(t=False):  
-    camera = cv2.VideoCapture(0)
-    # if t:
-    #     success, frame = camera.read()
-    #     ret, buffer = cv2.imencode('.jpg', frame)
-    #     frame = buffer.tobytes()
-    #     return (b'--frame\r\n'
-    #                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-    while True:
-        success, frame = camera.read()
-        if not success:
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
+class Streamers:
+    def __init__(self, fps=30):
+        self.fps = fps
+        self.frame_size = (720, 480)
+        self.last_update_time = {
+            "webcam": 0,
+            "screen": 0
+        }
+        self.images = {
+            "webcam": None,
+            "screen": None
+        }
+
+    def gen_frames(self, t=False):
+        camera = cv2.VideoCapture(0)
+        while True:
+            if time.time() - self.last_update_time["webcam"] > 1 / self.fps:
+                self.last_update_time["webcam"] = time.time()
+                success, frame = camera.read()
+                if not success:
+                    self.images["webcam"] = ""
+                else:
+                    frame = cv2.resize(frame, self.frame_size)
+                    ret, buffer = cv2.imencode('.jpg', frame)
+                    frame = buffer.tobytes()
+                    self.images["webcam"] = frame
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                b'Content-Type: image/jpeg\r\n\r\n' + self.images["webcam"] + b'\r\n')
 
-def gen_screen():
-    while True:
-        img = pyautogui.screenshot()
-        frame = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    def gen_screen(self):
+        while True:
+            if time.time() - self.last_update_time["screen"] > 1 / self.fps:
+                self.last_update_time["screen"] = time.time()
+                img = pyautogui.screenshot()
+                frame = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+                frame = cv2.resize(frame, self.frame_size)
+                ret, buffer = cv2.imencode('.jpg', frame)
+                self.images["screen"] = buffer.tobytes()
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + self.images["screen"] + b'\r\n')
+    
+    def __call__(self, out_type: str) -> Any:
+        if out_type == "screen":
+            return self.gen_screen()
+        elif out_type == "webcam":
+            return self.gen_frames()
+        else:
+            raise ValueError("Invalid out_type")
 
 
 def update_stream_url():
@@ -180,7 +203,7 @@ def rickroll():
 
 @app.route('/webcam_page/video_feed')
 def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(streamers("webcam"), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # @app.route('/api/get_photo', methods=["GET"])
 # def get_photo():
@@ -195,7 +218,7 @@ def webcam_page():
 
 @app.route('/screen_page/screen_feed')
 def screen_feed():
-    return Response(gen_screen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(streamers("screen"), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/screen_page", methods=["GET"])
 def screen_page():
@@ -226,6 +249,8 @@ if __name__ == "__main__":
     if not os.path.exists(os.path.join(dirname, "password.txt")):
         with open(os.path.join(dirname, "password.txt"), "w") as f:
             f.write("$argon2id$v=19$m=65536,t=3,p=4$WMVq4eniCoW8SEIHID2HzQ$DZlvFI6hnbzk0AYj142crAKhlKmyuIpCT0cinJA0sA4")
+
+    streamers = Streamers()
     
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--sensitivity", type=float, nargs=1, default=[0.1])
@@ -244,4 +269,4 @@ if __name__ == "__main__":
     else:
         print("Warning: no certificate found, using adhoc certificate")
         context = "adhoc"
-    app.run(debug=True, host="0.0.0.0", port=PORT, ssl_context=context)
+    app.run(debug=True, threaded=True, host="0.0.0.0", port=PORT, ssl_context=context)

@@ -6,3 +6,6 @@ python-vlc
 yt-dlp
 PyOpenSSL
 qrcode
+opencv-python
+numpy
+pyyaml

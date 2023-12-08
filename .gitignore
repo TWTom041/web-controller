@@ -162,3 +162,4 @@ cython_debug/
 ca-cert/
 pyngrok-main/
 pyngrok/
+qr_img.svg

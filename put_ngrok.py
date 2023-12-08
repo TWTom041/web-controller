@@ -1,5 +1,8 @@
 import platform
 import qrcode
+import qrcode.image.svg
+import os
+import webbrowser
 
 try:
     from pyngrok import conf, ngrok
@@ -32,6 +35,9 @@ except ModuleNotFoundError:
     ngrok = importlib.import_module("pyngrok.ngrok")
     conf = importlib.import_module("pyngrok.conf")
 
+# dirname = os.path.dirname(__file__)
+qr_svg_path = "qr_img.svg"
+
 
 def qr_terminal_str(str, version=2):
     if platform.system() == "Windows":
@@ -43,9 +49,15 @@ def qr_terminal_str(str, version=2):
         black_block = '\033[0;37;40m  '
         new_line = '\033[0m\n'
 
-    qr = qrcode.QRCode(version)
+    qr = qrcode.QRCode(version, image_factory=qrcode.image.svg.SvgPathImage)
     qr.add_data(str)
     qr.make()
+    img = qr.make_image(attrib={'class': ''})
+    with open(qr_svg_path, "w") as f:
+        f.write(img.to_string(encoding='unicode'))
+    # qr.make_image(attrib={'class': ''})
+    webbrowser.open(f"file://{os.path.abspath(qr_svg_path)}")
+
     output = white_block*(qr.modules_count+2) + new_line
     for mn in qr.modules:
         output += white_block
@@ -74,6 +86,7 @@ conf.get_default().region = region if region else "jp"
 ngrok_tunnel = ngrok.connect(f"https://127.0.0.1:{port}")
 print(ngrok_tunnel.public_url)
 print(qr_terminal_str(ngrok_tunnel.public_url))
+print(f"svg saved at {os.path.abspath(qr_svg_path)}")
 print("Press enter to exit")
 input()
 ngrok.kill()

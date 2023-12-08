@@ -6,8 +6,8 @@ import shutil
 
 packname = "web-controller"
 
-shutil.rmtree(f"dist/{packname}/_internal")
-os.mkdir(f"dist/{packname}/_internal")
+shutil.rmtree(f"dist/{packname}/_internal", ignore_errors=True)
+os.makedirs(f"dist/{packname}/_internal", exist_ok=True)
 
 os.chdir(f"dist/{packname}/_internal")
 print("downloading python")
